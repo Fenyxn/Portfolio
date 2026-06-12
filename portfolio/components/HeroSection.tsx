@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import WordsPullUp from "./animations/WordsPullUp";
+import { ParticleTextEffect } from "./ui/particle-text-effect";
 
 const VIDEO_URL =
   "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4";
@@ -67,22 +67,12 @@ export default function HeroSection() {
         <div className="absolute bottom-0 left-0 right-0 z-10 px-4 md:px-8 pb-6 md:pb-10">
           <div className="grid grid-cols-12 items-end gap-4">
 
-            {/* Left — giant name */}
-            <div className="col-span-12 lg:col-span-8">
-              <h1
-                className="font-medium leading-[0.85] tracking-[-0.07em]"
-                style={{ color: "#E1E0CC" }}
-              >
-                <span className="block text-[22vw] sm:text-[20vw] md:text-[18vw] lg:text-[16vw] xl:text-[15vw]">
-                  <WordsPullUp text="Akanksha" showAsterisk delay={0} />
-                </span>
-                <span
-                  className="block text-[22vw] sm:text-[20vw] md:text-[18vw] lg:text-[16vw] xl:text-[15vw]"
-                  style={{ color: "rgba(222,219,200,0.35)" }}
-                >
-                  <WordsPullUp text="Powar" delay={0.1} />
-                </span>
-              </h1>
+            {/* Left — particle name animation */}
+            <div className="col-span-12 lg:col-span-8" style={{ aspectRatio: "2/1" }}>
+              <ParticleTextEffect
+                embedded
+                words={["AKANKSHA", "POWAR", "FULL STACK", "PYTHON", "DEV"]}
+              />
             </div>
 
             {/* Right — description + CTA */}
