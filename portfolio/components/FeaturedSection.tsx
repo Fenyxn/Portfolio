@@ -122,6 +122,13 @@ const projectListItems = [
     status: "live" as const,
   },
   {
+    slug: "ema-crossover",
+    name: "EMA Crossover Screener",
+    stack: "Python · FastAPI · WebSockets · Pandas · Telegram Bot · Delta Exchange API",
+    desc: "Real-time screener detecting 9/20 EMA crossovers across five timeframes, with a live dashboard and Telegram alerts.",
+    status: "live" as const,
+  },
+  {
     slug: "trendedge",
     name: "TrendEdge",
     stack: "Python · FastAPI · Next.js · Socket.IO · Zerodha API · PostgreSQL",
@@ -141,13 +148,6 @@ const projectListItems = [
     stack: "Python · FastAPI · Next.js · Keycloak · PostgreSQL · FullCalendar",
     desc: "Enterprise platform — project management, finance, invoicing, expense tracking, RBAC via Keycloak.",
     status: "completed" as const,
-  },
-  {
-    slug: "ema-crossover",
-    name: "EMA Crossover Screener",
-    stack: "Python · FastAPI · WebSockets · Pandas · Telegram Bot · Delta Exchange API",
-    desc: "Real-time screener detecting 9/20 EMA crossovers across five timeframes, with a live dashboard and Telegram alerts.",
-    status: "live" as const,
   },
 ];
 

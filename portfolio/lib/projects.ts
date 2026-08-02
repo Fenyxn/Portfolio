@@ -149,6 +149,67 @@ export const projects: Project[] = [
   },
 
   {
+    slug: "ema-crossover",
+    name: "EMA Crossover Screener",
+    tagline: "Real-time crypto screener detecting 9/20 EMA crossovers across five timeframes, with a live dashboard and Telegram alerts.",
+    category: "Fintech · Market Screener",
+    status: "live",
+    liveUrl: "https://ema.fenyxn.in",
+    stack: [
+      "Python", "FastAPI", "Uvicorn", "WebSockets",
+      "Pandas", "NumPy", "Delta Exchange API",
+      "Telegram Bot API", "JavaScript", "Docker", "Nginx", "GCP",
+    ],
+    description:
+      "A real-time screener that watches Delta Exchange markets for exponential moving average crossovers and surfaces them the moment they confirm. A persistent WebSocket feed drives a colour-coded dashboard covering five timeframes at once, with a dynamic watchlist and optional Telegram alerts.",
+    problem:
+      "Spotting EMA crossovers by hand means flipping between charts, symbols, and timeframes — five timeframes across a dozen symbols is sixty charts to watch. Signals get missed, and by the time a crossover is noticed on a one-minute chart the move is often already over.",
+    solution:
+      "A persistent WebSocket connection to Delta Exchange streams live candles into per-symbol, per-timeframe EMA state. Crossovers are confirmed on candle close and pushed straight to the browser over a WebSocket, so the dashboard updates without polling. The watchlist is dynamic — adding or removing a symbol subscribes and unsubscribes from the upstream feed at runtime, with no restart. Historical candles are cached to disk so restarts are near-instant instead of refetching everything.",
+    highlights: [
+      { label: "EMA periods", value: "9 / 20" },
+      { label: "Timeframes", value: "1m · 15m · 1h · 4h · 1d" },
+      { label: "Data", value: "Live WebSocket" },
+      { label: "Alerts", value: "Telegram" },
+    ],
+    features: [
+      {
+        title: "Real-Time Signal Detection",
+        items: [
+          "Persistent WebSocket connection to the Delta Exchange India feed",
+          "9-period and 20-period EMA computed per symbol and per timeframe",
+          "Crossovers confirmed on candle close to avoid mid-candle false signals",
+          "Five timeframes tracked concurrently — 1m, 15m, 1h, 4h, and 1d",
+          "Signals pushed to the browser over WebSocket, with no client polling",
+          "Historical crossover lookup for any symbol and timeframe",
+        ],
+      },
+      {
+        title: "Dynamic Watchlist",
+        items: [
+          "Add or remove symbols from the UI without restarting the service",
+          "Runtime subscribe and unsubscribe against the upstream market feed",
+          "Full instrument list pulled live from the Delta Exchange products API",
+          "Watchlist state persisted server-side across restarts",
+          "Colour-coded multi-timeframe table showing bullish and bearish states",
+        ],
+      },
+      {
+        title: "Alerts & Sessions",
+        items: [
+          "Telegram alerts on confirmed crossovers, delivered per linked user",
+          "PIN-based Telegram account linking, with unlink support",
+          "HS256-signed sessions with a 30-minute expiry and rolling refresh",
+          "Capped concurrent sessions per deployment",
+          "Rotating file logs for both backend events and frontend errors",
+        ],
+      },
+    ],
+    architecture:
+      "FastAPI application with an async polling manager holding one persistent WebSocket to Delta Exchange. Candle data flows into per-symbol, per-timeframe EMA state in shared memory; confirmed crossovers fan out to connected browsers over a /ws endpoint and to Telegram through the bot worker. Historical candles are cached on disk so restarts avoid refetching the full history. Runs as a containerised uvicorn app behind Nginx with Let's Encrypt TLS on GCP.",
+  },
+
+  {
     slug: "spacetime",
     name: "SpaceTime",
     tagline: "High-throughput market data platform processing 10,000+ ticks/sec with real-time Space-Time Reversal Indicators and multi-chart visualization.",
@@ -397,67 +458,6 @@ export const projects: Project[] = [
       "FastAPI backend with domain-separated routers: projects, tasks, finance, invoices, employees, freelancers, clients, reports. Keycloak provides SSO with Google login and JWT-based group permissions. Next.js frontend uses typed REST contracts for all API interactions. Electron wraps the Next.js app into a cross-platform desktop application. PDF generation happens server-side with HTML templates. Email automation runs as a background service. PostgreSQL stores all relational business data with auto-calculated fields and cascading relations.",
     videoUrl:
       "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4",
-  },
-
-  {
-    slug: "ema-crossover",
-    name: "EMA Crossover Screener",
-    tagline: "Real-time crypto screener detecting 9/20 EMA crossovers across five timeframes, with a live dashboard and Telegram alerts.",
-    category: "Fintech · Market Screener",
-    status: "live",
-    liveUrl: "https://ema.fenyxn.in",
-    stack: [
-      "Python", "FastAPI", "Uvicorn", "WebSockets",
-      "Pandas", "NumPy", "Delta Exchange API",
-      "Telegram Bot API", "JavaScript", "Docker", "Nginx", "GCP",
-    ],
-    description:
-      "A real-time screener that watches Delta Exchange markets for exponential moving average crossovers and surfaces them the moment they confirm. A persistent WebSocket feed drives a colour-coded dashboard covering five timeframes at once, with a dynamic watchlist and optional Telegram alerts.",
-    problem:
-      "Spotting EMA crossovers by hand means flipping between charts, symbols, and timeframes — five timeframes across a dozen symbols is sixty charts to watch. Signals get missed, and by the time a crossover is noticed on a one-minute chart the move is often already over.",
-    solution:
-      "A persistent WebSocket connection to Delta Exchange streams live candles into per-symbol, per-timeframe EMA state. Crossovers are confirmed on candle close and pushed straight to the browser over a WebSocket, so the dashboard updates without polling. The watchlist is dynamic — adding or removing a symbol subscribes and unsubscribes from the upstream feed at runtime, with no restart. Historical candles are cached to disk so restarts are near-instant instead of refetching everything.",
-    highlights: [
-      { label: "EMA periods", value: "9 / 20" },
-      { label: "Timeframes", value: "1m · 15m · 1h · 4h · 1d" },
-      { label: "Data", value: "Live WebSocket" },
-      { label: "Alerts", value: "Telegram" },
-    ],
-    features: [
-      {
-        title: "Real-Time Signal Detection",
-        items: [
-          "Persistent WebSocket connection to the Delta Exchange India feed",
-          "9-period and 20-period EMA computed per symbol and per timeframe",
-          "Crossovers confirmed on candle close to avoid mid-candle false signals",
-          "Five timeframes tracked concurrently — 1m, 15m, 1h, 4h, and 1d",
-          "Signals pushed to the browser over WebSocket, with no client polling",
-          "Historical crossover lookup for any symbol and timeframe",
-        ],
-      },
-      {
-        title: "Dynamic Watchlist",
-        items: [
-          "Add or remove symbols from the UI without restarting the service",
-          "Runtime subscribe and unsubscribe against the upstream market feed",
-          "Full instrument list pulled live from the Delta Exchange products API",
-          "Watchlist state persisted server-side across restarts",
-          "Colour-coded multi-timeframe table showing bullish and bearish states",
-        ],
-      },
-      {
-        title: "Alerts & Sessions",
-        items: [
-          "Telegram alerts on confirmed crossovers, delivered per linked user",
-          "PIN-based Telegram account linking, with unlink support",
-          "HS256-signed sessions with a 30-minute expiry and rolling refresh",
-          "Capped concurrent sessions per deployment",
-          "Rotating file logs for both backend events and frontend errors",
-        ],
-      },
-    ],
-    architecture:
-      "FastAPI application with an async polling manager holding one persistent WebSocket to Delta Exchange. Candle data flows into per-symbol, per-timeframe EMA state in shared memory; confirmed crossovers fan out to connected browsers over a /ws endpoint and to Telegram through the bot worker. Historical candles are cached on disk so restarts avoid refetching the full history. Runs as a containerised uvicorn app behind Nginx with Let's Encrypt TLS on GCP.",
   },
 ];
 
