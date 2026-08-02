@@ -115,6 +115,13 @@ const projectListItems = [
     status: "live" as const,
   },
   {
+    slug: "pip-calculator",
+    name: "Pip Calculator",
+    stack: "Next.js · TypeScript · Tailwind · Twelve Data API · Docker · Nginx · GCP",
+    desc: "Forex pip and P&L calculator — live prices for 10 instruments, JPY and gold-aware math, results in USD and INR.",
+    status: "live" as const,
+  },
+  {
     slug: "trendedge",
     name: "TrendEdge",
     stack: "Python · FastAPI · Next.js · Socket.IO · Zerodha API · PostgreSQL",

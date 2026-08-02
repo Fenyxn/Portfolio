@@ -87,6 +87,68 @@ export const projects: Project[] = [
   },
 
   {
+    slug: "pip-calculator",
+    name: "Pip Calculator",
+    tagline: "Forex pip-value and P&L calculator with live market prices, correct JPY and gold arithmetic, and instant USD → INR conversion.",
+    category: "Fintech · Trading Tool",
+    status: "live",
+    liveUrl: "https://pipcalculator.fenyxn.in",
+    stack: [
+      "Next.js", "TypeScript", "React", "Tailwind CSS",
+      "Route Handlers", "Twelve Data API", "Frankfurter API",
+      "Playwright", "Docker", "Nginx", "GCP",
+    ],
+    description:
+      "A forex position calculator that turns entry price, exit price, lot size, and trade direction into exact pip movement and profit/loss — reported in both USD and Indian Rupees. Covers 10 instruments including gold, pulls live market prices on demand, and applies the correct pip arithmetic for each instrument class.",
+    problem:
+      "Generic pip calculators assume every pair has a 0.0001 pip and a USD quote currency, so they silently return wrong numbers for JPY crosses and for gold. Indian traders are then left converting USD results to rupees by hand, at a rate they have to look up somewhere else.",
+    solution:
+      "Pip size and pip value are derived per instrument: JPY pairs use a 0.01 pip with the pip value converted through the exit price, gold is priced off the raw dollar move across contract units, and standard pairs use a fixed 0.0001 pip value. Live prices come from Twelve Data behind a 60-second in-memory cache, with the two JPY crosses derived from Frankfurter base rates so the free tier's 8-credit limit is never exceeded. USD/INR is fetched hourly with a hard fallback so the calculator keeps working even if the rate API is down.",
+    highlights: [
+      { label: "Instruments", value: "10 incl. XAU" },
+      { label: "Lot sizes", value: "Standard · Mini · Micro" },
+      { label: "Output", value: "USD + INR" },
+      { label: "Price cache", value: "60s in-memory" },
+    ],
+    features: [
+      {
+        title: "Instrument-Aware Pip Arithmetic",
+        items: [
+          "Per-instrument pip size — 0.0001 for standard pairs, 0.01 for JPY crosses and gold",
+          "JPY pip value converted through the exit price rather than assumed in USD",
+          "XAU/USD profit computed from the raw dollar move across contract units",
+          "Standard (100,000), Mini (10,000), and Micro (1,000) lots with fractional sizing",
+          "Buy and sell direction with signed profit/loss and absolute pip count",
+          "Validation for non-numeric, zero, and negative inputs before calculating",
+        ],
+      },
+      {
+        title: "Live Market Data",
+        items: [
+          "10 instruments including EUR/USD, GBP/JPY, USD/CHF, and XAU/USD",
+          "Twelve Data batch price request capped at 8 symbols to respect free-tier credits",
+          "EUR/JPY and GBP/JPY derived from Frankfurter base rates — zero extra credits",
+          "60-second in-memory cache shared across requests to protect the rate limit",
+          "One-tap use of the live price to populate the entry field",
+          "Manual refresh with spinner state and a last-updated timestamp",
+        ],
+      },
+      {
+        title: "Resilience & Delivery",
+        items: [
+          "USD/INR fetched hourly with a static fallback rate if the API fails",
+          "Distinct error states for rate-limit, network, and unconfigured-key failures",
+          "API key held server-side in a route handler — never exposed to the browser",
+          "Standalone Next.js output in a multi-stage Docker image running as a non-root user",
+          "Nginx reverse proxy with Let's Encrypt TLS, self-hosted on GCP",
+        ],
+      },
+    ],
+    architecture:
+      "Next.js App Router with two server-side route handlers: /api/forex-prices batches a Twelve Data price request and merges Frankfurter-derived JPY crosses behind a 60-second in-memory cache, while /api/exchange-rate pulls USD/INR hourly with a static fallback. All calculation runs client-side from the fetched prices, so no trade data leaves the browser. Built as a standalone Next.js bundle in a multi-stage Docker image, run as a non-root user and served through Nginx with Let's Encrypt TLS on GCP.",
+  },
+
+  {
     slug: "spacetime",
     name: "SpaceTime",
     tagline: "High-throughput market data platform processing 10,000+ ticks/sec with real-time Space-Time Reversal Indicators and multi-chart visualization.",
