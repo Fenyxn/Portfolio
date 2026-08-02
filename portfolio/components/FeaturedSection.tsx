@@ -143,11 +143,11 @@ const projectListItems = [
     status: "completed" as const,
   },
   {
-    slug: "delta-exchange-automation",
-    name: "Delta Exchange Automation",
-    stack: "Python · FastAPI · WebSockets · Telegram Bot · Delta Exchange API",
-    desc: "Multi-symbol automated trading system with real-time monitoring, signal processing, and Telegram alerts.",
-    status: "completed" as const,
+    slug: "ema-crossover",
+    name: "EMA Crossover Screener",
+    stack: "Python · FastAPI · WebSockets · Pandas · Telegram Bot · Delta Exchange API",
+    desc: "Real-time screener detecting 9/20 EMA crossovers across five timeframes, with a live dashboard and Telegram alerts.",
+    status: "live" as const,
   },
 ];
 

@@ -400,69 +400,64 @@ export const projects: Project[] = [
   },
 
   {
-    slug: "delta-exchange-automation",
-    name: "Delta Exchange Automation",
-    tagline: "Multi-symbol automated crypto trading system on Delta Exchange with real-time WebSocket monitoring and Telegram alerts.",
-    category: "Fintech · Trading Automation",
-    status: "completed",
+    slug: "ema-crossover",
+    name: "EMA Crossover Screener",
+    tagline: "Real-time crypto screener detecting 9/20 EMA crossovers across five timeframes, with a live dashboard and Telegram alerts.",
+    category: "Fintech · Market Screener",
+    status: "live",
+    liveUrl: "https://ema.fenyxn.in",
     stack: [
-      "Python", "FastAPI", "WebSockets",
-      "Delta Exchange API", "Telegram Bot API",
+      "Python", "FastAPI", "Uvicorn", "WebSockets",
+      "Pandas", "NumPy", "Delta Exchange API",
+      "Telegram Bot API", "JavaScript", "Docker", "Nginx", "GCP",
     ],
     description:
-      "An automated trading system integrated with Delta Exchange that executes trades across multiple cryptocurrency instruments simultaneously — driven by strategy signals with real-time Telegram notifications and live market monitoring via WebSockets.",
+      "A real-time screener that watches Delta Exchange markets for exponential moving average crossovers and surfaces them the moment they confirm. A persistent WebSocket feed drives a colour-coded dashboard covering five timeframes at once, with a dynamic watchlist and optional Telegram alerts.",
     problem:
-      "Manually trading crypto derivatives on Delta Exchange across multiple instruments requires constant attention, rapid decision-making, and is prone to missed signals and delayed execution.",
+      "Spotting EMA crossovers by hand means flipping between charts, symbols, and timeframes — five timeframes across a dozen symbols is sixty charts to watch. Signals get missed, and by the time a crossover is noticed on a one-minute chart the move is often already over.",
     solution:
-      "A FastAPI backend subscribes to Delta Exchange WebSocket feeds for real-time price data, evaluates strategy signals, and executes orders automatically. A Telegram Bot delivers instant trade alerts and system status updates to the operator without interrupting the main trading loop.",
+      "A persistent WebSocket connection to Delta Exchange streams live candles into per-symbol, per-timeframe EMA state. Crossovers are confirmed on candle close and pushed straight to the browser over a WebSocket, so the dashboard updates without polling. The watchlist is dynamic — adding or removing a symbol subscribes and unsubscribes from the upstream feed at runtime, with no restart. Historical candles are cached to disk so restarts are near-instant instead of refetching everything.",
     highlights: [
-      { label: "Exchange", value: "Delta Exchange" },
-      { label: "Symbols", value: "Multi-instrument" },
-      { label: "Alerts", value: "Telegram Bot" },
-      { label: "Data", value: "WebSocket feed" },
+      { label: "EMA periods", value: "9 / 20" },
+      { label: "Timeframes", value: "1m · 15m · 1h · 4h · 1d" },
+      { label: "Data", value: "Live WebSocket" },
+      { label: "Alerts", value: "Telegram" },
     ],
     features: [
       {
-        title: "Multi-Symbol Trading",
+        title: "Real-Time Signal Detection",
         items: [
-          "Simultaneous trade execution across multiple instruments",
-          "Independent strategy evaluation per symbol",
-          "Concurrent position management without interference",
-          "Configurable symbol list and strategy parameters",
+          "Persistent WebSocket connection to the Delta Exchange India feed",
+          "9-period and 20-period EMA computed per symbol and per timeframe",
+          "Crossovers confirmed on candle close to avoid mid-candle false signals",
+          "Five timeframes tracked concurrently — 1m, 15m, 1h, 4h, and 1d",
+          "Signals pushed to the browser over WebSocket, with no client polling",
+          "Historical crossover lookup for any symbol and timeframe",
         ],
       },
       {
-        title: "Automated Execution",
+        title: "Dynamic Watchlist",
         items: [
-          "Signal-based order placement without manual intervention",
-          "Delta Exchange REST API for order management",
-          "Entry, exit, and stop-loss automation",
-          "Real-time order status tracking and reconciliation",
+          "Add or remove symbols from the UI without restarting the service",
+          "Runtime subscribe and unsubscribe against the upstream market feed",
+          "Full instrument list pulled live from the Delta Exchange products API",
+          "Watchlist state persisted server-side across restarts",
+          "Colour-coded multi-timeframe table showing bullish and bearish states",
         ],
       },
       {
-        title: "WebSocket Monitoring",
+        title: "Alerts & Sessions",
         items: [
-          "Live market data subscription via Delta Exchange WebSocket",
-          "Real-time price and order book monitoring",
-          "Signal processing on incoming tick data",
-          "Low-latency async event loop for time-sensitive execution",
-        ],
-      },
-      {
-        title: "Telegram Integration",
-        items: [
-          "Instant trade execution alerts via Telegram Bot API",
-          "System health and connectivity status notifications",
-          "Daily P&L and position summary reports",
-          "Error and exception alerts for operational awareness",
+          "Telegram alerts on confirmed crossovers, delivered per linked user",
+          "PIN-based Telegram account linking, with unlink support",
+          "HS256-signed sessions with a 30-minute expiry and rolling refresh",
+          "Capped concurrent sessions per deployment",
+          "Rotating file logs for both backend events and frontend errors",
         ],
       },
     ],
     architecture:
-      "FastAPI application with an async event loop subscribing to Delta Exchange WebSocket feeds. Strategy logic evaluates signals per symbol and triggers REST API calls for order execution. Telegram Bot API delivers notifications asynchronously without blocking the main trading loop.",
-    videoUrl:
-      "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_074625_a81f018a-956b-43fb-9aee-4d1508e30e6a.mp4",
+      "FastAPI application with an async polling manager holding one persistent WebSocket to Delta Exchange. Candle data flows into per-symbol, per-timeframe EMA state in shared memory; confirmed crossovers fan out to connected browsers over a /ws endpoint and to Telegram through the bot worker. Historical candles are cached on disk so restarts avoid refetching the full history. Runs as a containerised uvicorn app behind Nginx with Let's Encrypt TLS on GCP.",
   },
 ];
 
