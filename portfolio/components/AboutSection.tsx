@@ -78,7 +78,7 @@ export default function AboutSection() {
             style={{ background: "rgba(222,219,200,0.06)" }}
           >
             {[
-              { value: "10+", label: "Months experience" },
+              { value: "1+", label: "Years experience" },
               { value: "5+", label: "Production projects" },
               { value: "8.14", label: "B.Tech CGPA" },
               { value: "10K+", label: "Ticks per second" },
