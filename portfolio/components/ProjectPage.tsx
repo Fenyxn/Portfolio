@@ -101,6 +101,19 @@ export default function ProjectPage({ project }: { project: Project }) {
               </span>
             ))}
           </motion.div>
+
+          {project.liveUrl && (
+            <motion.a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium transition-opacity hover:opacity-80 mt-8 self-start"
+              style={{ background: "#DEDBC8", color: "#000" }}
+              {...fade(0.34)}
+            >
+              <ExternalLink size={14} /> View live
+            </motion.a>
+          )}
         </div>
       </section>
 
@@ -218,17 +231,6 @@ export default function ProjectPage({ project }: { project: Project }) {
 
         {/* Links */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 pt-4 border-t" style={{ borderColor: "rgba(222,219,200,0.07)" }}>
-          {project.liveUrl && (
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium transition-opacity hover:opacity-80"
-              style={{ background: "#DEDBC8", color: "#000" }}
-            >
-              <ExternalLink size={14} /> View live
-            </a>
-          )}
           {project.githubUrl && (
             <a
               href={project.githubUrl}
