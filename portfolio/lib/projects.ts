@@ -24,7 +24,6 @@ export const projects: Project[] = [
     category: "Enterprise Platform",
     status: "live",
     liveUrl: "https://lab.fenyxn.in",
-    githubUrl: "https://github.com/Fenyxn/Laboratory-Management-System",
     stack: [
       "Python", "FastAPI", "Next.js", "TypeScript",
       "PostgreSQL", "Keycloak", "WhatsApp API", "Node.js",
