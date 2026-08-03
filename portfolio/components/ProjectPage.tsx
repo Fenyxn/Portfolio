@@ -54,15 +54,15 @@ export default function ProjectPage({ project }: { project: Project }) {
             <ArrowLeft size={15} />
             Back to portfolio
           </Link>
-          {project.githubUrl && (
+          {project.liveUrl && (
             <a
-              href={project.githubUrl}
+              href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-sm transition-opacity hover:opacity-70"
               style={{ color: "rgba(222,219,200,0.7)" }}
             >
-              GitHub <ArrowUpRight size={14} />
+              <ExternalLink size={14} /> View live
             </a>
           )}
         </div>
@@ -101,19 +101,6 @@ export default function ProjectPage({ project }: { project: Project }) {
               </span>
             ))}
           </motion.div>
-
-          {project.liveUrl && (
-            <motion.a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium transition-opacity hover:opacity-80 mt-8 self-start"
-              style={{ background: "#DEDBC8", color: "#000" }}
-              {...fade(0.34)}
-            >
-              <ExternalLink size={14} /> View live
-            </motion.a>
-          )}
         </div>
       </section>
 
